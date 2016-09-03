@@ -1,14 +1,10 @@
 import java.util.ArrayList;
 public class Solution {
-	public ArrayList<Integer> findPrimesLessThan(int number) {
-		ArrayList<Integer> result = new ArrayList<Integer>();
-		for (int i = 2; i <= number; i++) {
-			if (isPrime(i)) {
-				result.add(i);
-				break;
-			}
-		}
-		return result;
+	public int getNextPrimeLessThan(int number, int start) {
+		for (int i = start; i <= number; i++)
+			if (isPrime(i))
+				return i;
+		return -1;
 	}
 
 	public boolean isPrime(int number) {
@@ -20,23 +16,18 @@ public class Solution {
 	}
 
 	public ArrayList<Integer> primesum(int a) {
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-		System.out.println("taking too much time after getting here");
-		ArrayList<Integer> first = findPrimesLessThan(a);
-		System.out.println("taking too much time before getting here " + first.size());
-		for (Integer i : first) {
-			if (isPrime(a - i)) {
-				temp.add(i);
-				temp.add(a - i);
-				if (temp.size() == 2)
-					break;
-			}
-		}
-		// ArrayList<Integer> result = new ArrayList<Integer>();
-		// result.add(temp.get(0));
-		// result.add(temp.get(1));
 
-		return temp;
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		int start = 2;
+		int currentPrime = getNextPrimeLessThan(a, start);
+		while (! isPrime(a - currentPrime)) {
+			currentPrime = getNextPrimeLessThan(a, currentPrime + 1);
+		}
+		result.add(currentPrime);
+		result.add(a - currentPrime);
+
+		return result;
+
 	}
 
 	public static void main(String[] args) {
